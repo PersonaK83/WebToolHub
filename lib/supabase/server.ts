@@ -1,8 +1,15 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import type { CookieOptions } from '@supabase/ssr'
+
+type CookieToSet = {
+  name: string
+  value: string
+  options?: CookieOptions
+}
 
 export async function createClient() {
-  const cookieStore = await cookies()
+  const cookieStore = cookies()
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -16,15 +23,14 @@ export async function createClient() {
       getAll() {
         return cookieStore.getAll()
       },
-      setAll(cookiesToSet) {
+      setAll(cookiesToSet: CookieToSet[]) {
         try {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value, options }) => {
             cookieStore.set(name, value, options)
-          )
+          })
         } catch {
-          // The `setAll` method was called from a Server Component.
-          // This can be ignored if you have middleware refreshing
-          // user sessions.
+          // Server Component 환경에서는 set이 무시될 수 있음
+          // (middleware에서 세션을 갱신하고 있다면 정상)
         }
       },
     },
