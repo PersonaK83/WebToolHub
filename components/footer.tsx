@@ -12,9 +12,11 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold text-charcoal mb-4">카테고리</h3>
             <ul className="space-y-2 text-sm text-charcoal/70">
-              <li><a href="#image-media" className="hover:text-forest-green transition-colors">이미지/미디어</a></li>
+              <li><a href="#image-tools" className="hover:text-forest-green transition-colors">이미지 도구</a></li>
+              <li><a href="#video-tools" className="hover:text-forest-green transition-colors">동영상 도구</a></li>
               <li><a href="#text-convert" className="hover:text-forest-green transition-colors">텍스트/변환</a></li>
               <li><a href="#life-finance" className="hover:text-forest-green transition-colors">생활/금융</a></li>
+              <li><a href="#it-tools" className="hover:text-forest-green transition-colors">IT 도구</a></li>
             </ul>
           </div>
           <div>

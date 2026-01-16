@@ -48,18 +48,28 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link href="#tools" className="text-charcoal hover:text-forest-green transition-colors">
-              도구 모음
-            </Link>
-            <Link href="#about" className="text-charcoal hover:text-forest-green transition-colors">
-              소개
-            </Link>
-          </nav>
+          {/* Desktop Navigation & User Menu (Right Aligned) */}
+          <div className="hidden md:flex items-center space-x-6">
+            {/* Navigation Links */}
+            <nav className="flex items-center space-x-6">
+              <Link href="/" className="text-charcoal hover:text-forest-green transition-colors">
+                Home
+              </Link>
+              <Link href="#tools" className="text-charcoal hover:text-forest-green transition-colors">
+                Tools
+              </Link>
+              <Link href="/blog" className="text-charcoal hover:text-forest-green transition-colors">
+                Blog
+              </Link>
+              <Link href="/contact" className="text-charcoal hover:text-forest-green transition-colors">
+                Contact
+              </Link>
+              <Link href="/support" className="text-charcoal hover:text-forest-green transition-colors">
+                Support
+              </Link>
+            </nav>
 
-          {/* User Menu / Login Button */}
-          <div className="hidden md:block">
+            {/* User Menu / Login Button */}
             {authLoading ? (
               <div className="px-4 py-2 text-charcoal/50">로딩 중...</div>
             ) : user ? (
@@ -126,18 +136,39 @@ export default function Header() {
           <div className="md:hidden py-4 border-t border-charcoal/10">
             <nav className="flex flex-col space-y-4">
               <Link
+                href="/"
+                className="text-charcoal hover:text-forest-green transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
                 href="#tools"
                 className="text-charcoal hover:text-forest-green transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                도구 모음
+                Tools
               </Link>
               <Link
-                href="#about"
+                href="/blog"
                 className="text-charcoal hover:text-forest-green transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                소개
+                Blog
+              </Link>
+              <Link
+                href="/contact"
+                className="text-charcoal hover:text-forest-green transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Contact
+              </Link>
+              <Link
+                href="/support"
+                className="text-charcoal hover:text-forest-green transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Support
               </Link>
               {user ? (
                 <>

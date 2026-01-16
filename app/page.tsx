@@ -1,17 +1,21 @@
 import ToolCard from '@/components/tool-card'
 import { categories, getToolsByCategory } from '@/lib/tools'
-import { Image, FileText, Calculator, Zap, Shield, Download } from 'lucide-react'
+import { Image, Video, FileText, Calculator, Code, Zap, Shield, Download } from 'lucide-react'
 
 const categoryIcons = {
-  '이미지/미디어': Image,
+  '이미지 도구': Image,
+  '동영상 도구': Video,
   '텍스트/변환': FileText,
   '생활/금융': Calculator,
+  'IT 도구': Code,
 }
 
 const categoryIds = {
-  '이미지/미디어': 'image-media',
+  '이미지 도구': 'image-tools',
+  '동영상 도구': 'video-tools',
   '텍스트/변환': 'text-convert',
   '생활/금융': 'life-finance',
+  'IT 도구': 'it-tools',
 }
 
 export default function Home() {
