@@ -16,7 +16,7 @@ export const tools: Tool[] = [
     description: '크기 조절, 자르기, 필터 등 모든 이미지 편집 기능을 한곳에서.',
     category: '이미지 도구',
     icon: 'Image',
-    href: '/tools/all-in-one-image-editor',
+    href: '/tools/image-editor',
   },
   {
     id: 'image-resize-rotate',
@@ -24,7 +24,7 @@ export const tools: Tool[] = [
     description: '원하는 픽셀로 크기를 줄이고 각도를 자유롭게 회전하세요.',
     category: '이미지 도구',
     icon: 'Maximize2',
-    href: '/tools/image-resize-rotate',
+    href: '/tools/image-resizer',
   },
   {
     id: 'image-compressor',
@@ -40,7 +40,7 @@ export const tools: Tool[] = [
     description: 'JPG, PNG, WEBP 등 다양한 포맷을 통합 변환합니다.',
     category: '이미지 도구',
     icon: 'FileImage',
-    href: '/tools/image-format-converter',
+    href: '/tools/image-converter',
   },
   {
     id: 'aspect-ratio-crop',
@@ -48,7 +48,7 @@ export const tools: Tool[] = [
     description: '인스타그램, 유튜브 등 플랫폼에 맞는 비율로 자르기.',
     category: '이미지 도구',
     icon: 'Crop',
-    href: '/tools/aspect-ratio-crop',
+    href: '/tools/image-cropper',
   },
   {
     id: 'bulk-image-processor',
@@ -72,7 +72,7 @@ export const tools: Tool[] = [
     description: '이미지 속 글자를 인식하여 텍스트로 추출합니다.',
     category: '이미지 도구',
     icon: 'FileText',
-    href: '/tools/image-to-text-ocr',
+    href: '/tools/image-to-text',
   },
   {
     id: 'remove-exif',

@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import { ArrowLeft, Shield } from 'lucide-react'
+import { ArrowLeft, Maximize2 } from 'lucide-react'
 
-export default function RemoveExifPage() {
+export default function ImageResizerPage() {
   return (
     <div className="min-h-screen py-12 px-4">
       <div className="max-w-4xl mx-auto">
@@ -17,10 +17,10 @@ export default function RemoveExifPage() {
         {/* Header Section */}
         <div className="mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-charcoal mb-4">
-            EXIF 메타데이터 제거
+            이미지 크기 조절 + 회전
           </h1>
           <p className="text-lg text-charcoal/70">
-            사진에 포함된 위치 정보와 촬영 정보를 안전하게 삭제하세요.
+            원하는 픽셀로 크기를 줄이고 각도를 자유롭게 회전하세요.
           </p>
         </div>
 
@@ -28,7 +28,7 @@ export default function RemoveExifPage() {
         <div className="bg-white/80 border-2 border-charcoal/10 rounded-lg p-12 md:p-16 min-h-[400px] flex items-center justify-center">
           <div className="text-center">
             <div className="w-20 h-20 bg-forest-green/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Shield className="w-10 h-10 text-forest-green" />
+              <Maximize2 className="w-10 h-10 text-forest-green" />
             </div>
             <p className="text-xl text-charcoal/70 font-medium">
               기능 준비 중입니다...
