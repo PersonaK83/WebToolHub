@@ -15,7 +15,7 @@ module.exports = {
         'mustard-yellow': '#D4AF37',
       },
       fontFamily: {
-        sans: ['Inter', 'DM Sans', 'system-ui', 'sans-serif'],
+        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
       },
     },
   },

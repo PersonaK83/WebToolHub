@@ -131,7 +131,7 @@ export const tools: Tool[] = [
     description: '중요한 일정까지 남은 날짜를 간편하게 계산하세요.',
     category: '생활/금융',
     icon: 'Calendar',
-    href: '/tools/dday-calculator',
+    href: '/tools/d-day-calculator',
   },
   {
     id: 'unit-converter',
@@ -164,7 +164,7 @@ export const tools: Tool[] = [
     description: '텍스트를 Base64로 인코딩/디코딩합니다.',
     category: 'IT 도구',
     icon: 'Lock',
-    href: '/tools/base64',
+    href: '/tools/base64-converter',
   },
   {
     id: 'my-ip',

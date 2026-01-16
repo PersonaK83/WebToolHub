@@ -12,6 +12,7 @@ export default function Header() {
   const router = useRouter()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [language, setLanguage] = useState<'ko' | 'en'>('ko')
   const { user, loading: authLoading, signOut } = useAuth()
   const { profile } = useProfile(user?.id)
   const userMenuRef = useRef<HTMLDivElement>(null)
@@ -49,14 +50,14 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation & User Menu (Right Aligned) */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-4">
             {/* Navigation Links */}
             <nav className="flex items-center space-x-6">
               <Link href="/" className="text-charcoal hover:text-forest-green transition-colors">
-                Home
+                {language === 'ko' ? '홈' : 'Home'}
               </Link>
               <Link href="#tools" className="text-charcoal hover:text-forest-green transition-colors">
-                Tools
+                {language === 'ko' ? '도구' : 'Tools'}
               </Link>
               <Link href="/blog" className="text-charcoal hover:text-forest-green transition-colors">
                 Blog
@@ -68,6 +69,14 @@ export default function Header() {
                 Support
               </Link>
             </nav>
+
+            {/* Language Toggle */}
+            <button
+              onClick={() => setLanguage(language === 'ko' ? 'en' : 'ko')}
+              className="px-3 py-1.5 text-sm font-medium text-charcoal hover:text-forest-green border border-charcoal/20 rounded-lg hover:border-forest-green/50 transition-colors"
+            >
+              {language === 'ko' ? 'KO' : 'EN'}
+            </button>
 
             {/* User Menu / Login Button */}
             {authLoading ? (
@@ -140,14 +149,14 @@ export default function Header() {
                 className="text-charcoal hover:text-forest-green transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Home
+                {language === 'ko' ? '홈' : 'Home'}
               </Link>
               <Link
                 href="#tools"
                 className="text-charcoal hover:text-forest-green transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Tools
+                {language === 'ko' ? '도구' : 'Tools'}
               </Link>
               <Link
                 href="/blog"
@@ -170,6 +179,12 @@ export default function Header() {
               >
                 Support
               </Link>
+              <button
+                onClick={() => setLanguage(language === 'ko' ? 'en' : 'ko')}
+                className="text-left px-4 py-2 rounded-lg font-medium text-charcoal border border-charcoal/20 hover:border-forest-green/50 transition-colors"
+              >
+                {language === 'ko' ? 'KO / EN' : 'EN / KO'}
+              </button>
               {user ? (
                 <>
                   <Link
