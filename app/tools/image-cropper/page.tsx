@@ -1,7 +1,94 @@
+'use client'
+
+import { useState, useRef } from 'react'
 import Link from 'next/link'
-import { ArrowLeft, Crop } from 'lucide-react'
+import { ArrowLeft, Download } from 'lucide-react'
+import ReactCrop, { Crop, PixelCrop, makeAspectCrop, centerCrop } from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css'
+import ImageUploader from '@/components/image-uploader'
+import { Button } from '@/components/ui/button'
 
 export default function ImageCropperPage() {
+  const [image, setImage] = useState<File | null>(null)
+  const [imageSrc, setImageSrc] = useState<string | null>(null)
+  const [crop, setCrop] = useState<Crop>()
+  const [completedCrop, setCompletedCrop] = useState<PixelCrop>()
+  const [croppedImage, setCroppedImage] = useState<string | null>(null)
+  const imgRef = useRef<HTMLImageElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  const handleImageSelected = (file: File) => {
+    setImage(file)
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      setImageSrc(e.target?.result as string)
+    }
+    reader.readAsDataURL(file)
+    setCroppedImage(null)
+    setCrop(undefined)
+  }
+
+  const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    const { width, height } = e.currentTarget
+    const crop = makeAspectCrop(
+      {
+        unit: '%',
+        width: 90,
+      },
+      1,
+      width,
+      height
+    )
+    const centeredCrop = centerCrop(crop, width, height)
+    setCrop(centeredCrop)
+  }
+
+  const handleCrop = () => {
+    if (!imgRef.current || !canvasRef.current || !completedCrop) return
+
+    const image = imgRef.current
+    const canvas = canvasRef.current
+    const crop = completedCrop
+
+    const scaleX = image.naturalWidth / image.width
+    const scaleY = image.naturalHeight / image.height
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const pixelRatio = window.devicePixelRatio
+    canvas.width = crop.width * pixelRatio * scaleX
+    canvas.height = crop.height * pixelRatio * scaleY
+
+    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0)
+    ctx.imageSmoothingQuality = 'high'
+
+    const cropX = crop.x * scaleX
+    const cropY = crop.y * scaleY
+
+    ctx.drawImage(
+      image,
+      cropX,
+      cropY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width * scaleX,
+      crop.height * scaleY
+    )
+
+    setCroppedImage(canvas.toDataURL('image/png'))
+  }
+
+  const handleDownload = () => {
+    if (!croppedImage || !image) return
+
+    const link = document.createElement('a')
+    link.href = croppedImage
+    link.download = `cropped_${image.name}`
+    link.click()
+  }
+
   return (
     <div className="min-h-screen py-12 px-4">
       <div className="max-w-4xl mx-auto">
@@ -25,17 +112,79 @@ export default function ImageCropperPage() {
         </div>
 
         {/* Main Functionality Area */}
-        <div className="bg-white/80 border-2 border-charcoal/10 rounded-lg p-12 md:p-16 min-h-[400px] flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-20 h-20 bg-forest-green/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Crop className="w-10 h-10 text-forest-green" />
-            </div>
-            <p className="text-xl text-charcoal/70 font-medium">
-              기능 준비 중입니다...
-            </p>
-            <p className="text-sm text-charcoal/50 mt-2">
-              Functionality coming soon...
-            </p>
+        <div className="bg-white/80 border-2 border-charcoal/10 rounded-lg p-8">
+          <div className="space-y-6">
+            {!image ? (
+              <ImageUploader onImageSelected={handleImageSelected} />
+            ) : (
+              <>
+                {imageSrc && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-charcoal mb-4">이미지 자르기</h3>
+                    <div className="bg-white rounded-lg border border-charcoal/10 p-4">
+                      <ReactCrop
+                        crop={crop}
+                        onChange={(_, percentCrop) => setCrop(percentCrop)}
+                        onComplete={(c) => setCompletedCrop(c)}
+                        aspect={undefined}
+                        minWidth={50}
+                        minHeight={50}
+                      >
+                        <img
+                          ref={imgRef}
+                          alt="Crop me"
+                          src={imageSrc}
+                          style={{ maxHeight: '400px', maxWidth: '100%' }}
+                          onLoad={onImageLoad}
+                        />
+                      </ReactCrop>
+                    </div>
+                  </div>
+                )}
+
+                {croppedImage && (
+                  <div>
+                    <h3 className="text-lg font-semibold text-charcoal mb-2">자른 이미지</h3>
+                    <div className="bg-white rounded-lg border border-charcoal/10 p-4">
+                      <img
+                        src={croppedImage}
+                        alt="Cropped"
+                        className="max-w-full h-auto rounded"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <canvas ref={canvasRef} className="hidden" />
+
+                {/* Actions */}
+                <div className="flex flex-wrap gap-3">
+                  {imageSrc && (
+                    <Button onClick={handleCrop} disabled={!completedCrop} className="flex-1 md:flex-none">
+                      자르기 적용
+                    </Button>
+                  )}
+                  {croppedImage && (
+                    <Button onClick={handleDownload} variant="secondary" className="flex-1 md:flex-none">
+                      <Download className="w-4 h-4 mr-2" />
+                      다운로드
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setImage(null)
+                      setImageSrc(null)
+                      setCroppedImage(null)
+                      setCrop(undefined)
+                    }}
+                    className="flex-1 md:flex-none"
+                  >
+                    새 이미지 선택
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
