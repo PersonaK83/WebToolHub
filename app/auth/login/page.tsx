@@ -76,8 +76,16 @@ export default function LoginPage() {
     setError(null)
 
     try {
+      // Supabase는 기본적으로 kakao와 naver를 지원하지 않습니다.
+      // 커스텀 OAuth provider 설정이 필요합니다.
+      if (provider === 'kakao' || provider === 'naver') {
+        setError(`${provider === 'kakao' ? 'Kakao' : 'Naver'} 로그인은 현재 준비 중입니다. Google 로그인을 이용해주세요.`)
+        setSocialLoading(null)
+        return
+      }
+
       const { error: socialError } = await supabase.auth.signInWithOAuth({
-        provider,
+        provider: provider as 'google', // Google만 실제로 작동
         options: {
           redirectTo: `${window.location.origin}/auth/callback`,
         },
